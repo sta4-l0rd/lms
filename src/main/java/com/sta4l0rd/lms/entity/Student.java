@@ -31,11 +31,70 @@ public class Student {
     @Email
     private String email;
 
-    @Column(columnDefinition = "VARCHAR(25)")
+    @Column(columnDefinition = "VARCHAR(25)", unique = true)
     @Pattern(regexp = "^\\+\\d{1,3}-\\d{3}-\\d{3}-\\d{4}$")
     private String phone;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<BorrowingHistory> studentBorrowingHistories = new HashSet<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public LocalDate getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public void setDate_of_birth(LocalDate date_of_birth) {
+        this.date_of_birth = date_of_birth;
+    }
+
+    public Character getSex() {
+        return sex;
+    }
+
+    public void setSex(Character sex) {
+        this.sex = sex;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Set<BorrowingHistory> getStudentBorrowingHistories() {
+        return studentBorrowingHistories;
+    }
 }
