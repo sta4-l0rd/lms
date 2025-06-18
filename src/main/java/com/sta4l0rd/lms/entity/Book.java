@@ -3,8 +3,10 @@ package com.sta4l0rd.lms.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +26,6 @@ public class Book {
   private Integer total_copies;
   private Integer available_copies;
 
-  @OneToMany(mappedBy = "book")
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<BorrowingHistory> bookBorrowingHistories = new HashSet<>();
 }
