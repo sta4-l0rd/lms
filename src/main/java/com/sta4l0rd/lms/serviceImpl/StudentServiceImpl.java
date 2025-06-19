@@ -1,17 +1,23 @@
 package com.sta4l0rd.lms.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.management.RuntimeErrorException;
+import javax.print.attribute.standard.Destination;
 
+import org.modelmapper.Conditions;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.sta4l0rd.lms.CustomExceptions.InvalidRequestBodyException;
+import com.sta4l0rd.lms.DTOs.StudentDTO;
 import com.sta4l0rd.lms.entity.BorrowingHistory;
 import com.sta4l0rd.lms.entity.Student;
 import com.sta4l0rd.lms.repo.StudentRepo;
@@ -21,14 +27,31 @@ import com.sta4l0rd.lms.service.StudentService;
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
-    StudentRepo studentRepo;
+    private StudentRepo studentRepo;
+
+    private final ModelMapper modelMapper;
+
+    public StudentServiceImpl() {
+        this.modelMapper = new ModelMapper();
+        configureModelMapper();
+    }
+
+    private void configureModelMapper() {
+        if (modelMapper.getTypeMap(Student.class, StudentDTO.class) == null) {
+            TypeMap<Student, StudentDTO> typeMap = modelMapper.createTypeMap(Student.class, StudentDTO.class);
+            typeMap.addMappings(mapper -> {
+                mapper.map(Student::getGender, StudentDTO::setGender);
+                mapper.when(Conditions.isNull()).skip(Student::getEmail, StudentDTO::setEmail);
+            });
+        }
+    }
 
     private void validateStudent(Student student) {
         if (student == null) {
             throw new InvalidRequestBodyException("Student cannot be null");
         }
 
-        if (student.getFirst_name() == null || student.getFirst_name().trim().isEmpty()) {
+        if (student.getFirstName() == null || student.getFirstName().trim().isEmpty()) {
             throw new InvalidRequestBodyException("First name is required");
         }
 
@@ -74,14 +97,27 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getAllStudents() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllStudents'");
+        return studentRepo.findAll();
+    }
+
+    public List<StudentDTO> getAllStudentsDTO() {
+        return studentRepo.findAll().stream()
+                .map(student -> modelMapper.map(student, StudentDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Student updateStudent(Student student) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateStudent'");
+        validateStudent(student);
+        validatePhoneNumberFormat(student.getPhone());
+        Student existingRecord = studentRepo.findByPhone(student.getPhone());
+        if (existingRecord != null) {
+            student.setId(existingRecord.getId());
+            studentRepo.save(student);
+            return student;
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -91,15 +127,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> searchStudentsByLastName(String lastName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchStudentsByLastName'");
-    }
-
-    @Override
-    public List<Student> searchStudentsByFirstName(String firstName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchStudentsByFirstName'");
+    public List<Student> findStudentsByName(String name) {
+        return studentRepo.findByFirstNameOrLastNameOrEmailOrPhone(name, name, name, name);
     }
 
     @Override
