@@ -1,4 +1,4 @@
-package com.sta4l0rd.lms.interceptor;
+package com.sta4l0rd.lms.Interceptor;
 
 import java.lang.invoke.MethodHandles;
 
