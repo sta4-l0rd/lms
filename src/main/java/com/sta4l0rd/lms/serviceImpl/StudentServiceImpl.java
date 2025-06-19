@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.sta4l0rd.lms.CustomExceptions.InvalidInputException;
+import com.sta4l0rd.lms.CustomExceptions.InvalidRequestBodyException;
 import com.sta4l0rd.lms.entity.BorrowingHistory;
 import com.sta4l0rd.lms.entity.Student;
 import com.sta4l0rd.lms.repo.StudentRepo;
@@ -23,25 +23,17 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     StudentRepo studentRepo;
 
-    // private boolean isEmailRegistered(String email) {
-    // return true;
-    // }
-
-    // private boolean isPhoneRegistered(String phone) {
-    // return true;
-    // }
-
     private void validateStudent(Student student) {
         if (student == null) {
-            throw new InvalidInputException("Student cannot be null");
+            throw new InvalidRequestBodyException("Student cannot be null");
         }
 
         if (student.getFirst_name() == null || student.getFirst_name().trim().isEmpty()) {
-            throw new InvalidInputException("First name is required");
+            throw new InvalidRequestBodyException("First name is required");
         }
 
         if (student.getPhone() == null || student.getPhone().trim().isEmpty()) {
-            throw new InvalidInputException("Phone number is required");
+            throw new InvalidRequestBodyException("Phone number is required");
         }
     }
 
@@ -50,18 +42,18 @@ public class StudentServiceImpl implements StudentService {
         Matcher matcher = pattern.matcher(phone);
 
         if (!matcher.matches()) {
-            throw new InvalidInputException("Phone number must follow format: +{COUNTRY_CODE}-XXX-XXX-XXXX.");
+            throw new InvalidRequestBodyException("Phone number must follow format: +{COUNTRY_CODE}-XXX-XXX-XXXX.");
         }
     }
 
     private void checkForDuplicates(Student student) {
         if (studentRepo.existsByPhone(student.getPhone())) {
-            throw new InvalidInputException("Phone number already exists");
+            throw new InvalidRequestBodyException("Phone number already exists");
         }
 
         if (student.getEmail() != null && !student.getEmail().trim().isEmpty()
                 && studentRepo.existsByEmail(student.getEmail())) {
-            throw new InvalidInputException("Email already exists");
+            throw new InvalidRequestBodyException("Email already exists");
         }
     }
 
