@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.ColumnDefault;
+
+import com.sta4l0rd.lms.enums.Gender;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,12 +24,13 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String first_name;
-    private String last_name;
-    private LocalDate date_of_birth;
+    private String firstName;
+    private String lastName;
+    private LocalDate dateOfBirth;
 
     @Column(columnDefinition = "CHAR(1)")
-    private Character sex;
+    @ColumnDefault("0")
+    private Character sex = '0';
 
     @Column(columnDefinition = "VARCHAR(320)")
     @Email
@@ -46,28 +51,28 @@ public class Student {
         this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String first_name) {
+        this.firstName = first_name;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String last_name) {
+        this.lastName = last_name;
     }
 
-    public LocalDate getDate_of_birth() {
-        return date_of_birth;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDate_of_birth(LocalDate date_of_birth) {
-        this.date_of_birth = date_of_birth;
+    public void setDateOfBirth(LocalDate date_of_birth) {
+        this.dateOfBirth = date_of_birth;
     }
 
     public Character getSex() {
@@ -96,5 +101,16 @@ public class Student {
 
     public Set<BorrowingHistory> getStudentBorrowingHistories() {
         return studentBorrowingHistories;
+    }
+
+    public Gender getGender() {
+        if (this.sex == '0') {
+            return Gender.NOT_KNOWN;
+        } else if (this.sex == '1') {
+            return Gender.MALE;
+        } else if (this.sex == '2') {
+            return Gender.FEMALE;
+        } else
+            return Gender.NOT_APPLICABLE;
     }
 }
