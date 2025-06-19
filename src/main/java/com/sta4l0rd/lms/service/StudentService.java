@@ -14,8 +14,7 @@ public interface StudentService {
     public Student updateStudent(Student student);
     public void deleteStudent(Long id);
 
-    List<Student> searchStudentsByLastName(String lastName);
-    List<Student> searchStudentsByFirstName(String firstName);
+    List<Student> findStudentsByName(String name);
 
     Student findStudentByEmail(String email);
     Student findStudentByPhone(String phone);
