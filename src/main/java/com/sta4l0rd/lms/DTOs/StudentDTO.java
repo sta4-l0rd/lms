@@ -1,10 +1,7 @@
 package com.sta4l0rd.lms.DTOs;
 
-import java.time.LocalDate;
-
-import com.sta4l0rd.lms.enums.Gender;
-
 public class StudentDTO {
+    private String id;
     private String firstName;
     private String lastName;
     private String dateOfBirth;
@@ -58,6 +55,14 @@ public class StudentDTO {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }
