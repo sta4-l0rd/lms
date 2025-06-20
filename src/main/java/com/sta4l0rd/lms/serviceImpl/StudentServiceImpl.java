@@ -144,14 +144,30 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-    @Override
-    public void deleteStudent(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteStudent'");
+    public StudentDTO updateStudentDTO(StudentDTO studentDto) {
+        Student student = new Student();
+        student = modelMapper.map(studentDto, Student.class);
+        validateStudent(student);
+        validatePhoneNumberFormat(student.getPhone());
+        Student existingRecord = studentRepo.findByPhone(student.getPhone());
+        if (existingRecord != null) {
+            student.setId(existingRecord.getId());
+            studentRepo.save(student);
+            return studentDto;
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public List<Student> findStudentsByName(String name) {
+    public void deleteStudent(Long id) {
+        if(studentRepo.findById(id) != null){
+            studentRepo.deleteById(id);
+        }
+    }
+
+    @Override
+    public List<Student> findStudentsByString(String name) {
         return studentRepo.findByFirstNameOrLastNameOrEmailOrPhone(name, name, name, name);
     }
 
@@ -189,6 +205,10 @@ public class StudentServiceImpl implements StudentService {
     public int getCurrentBorrowedBooksCount(Long studentId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getCurrentBorrowedBooksCount'");
+    }
+
+    public StudentDTO getStudentDTOById(Long id) {
+        return modelMapper.map(studentRepo.findById(id), StudentDTO.class);
     }
 
 }

@@ -32,8 +32,8 @@
                     <td th:text="${student.dateOfBirth}"></td>
                     <td th:text="${student.gender}"></td>
                     <td>
-                        <a th:href="@{'/student/edit/' + ${student.phone}}">Edit</a>
-                        <a th:href="@{'/student/delete/' + ${student.phone}}">Delete</a>
+                        <a th:href="@{'/student/edit/' + ${student.id}}">Edit</a>
+                        <a th:href="@{'/student/delete/' + ${student.id}}">Delete</a>
                     </td>
                 </tr>
             </tbody>
