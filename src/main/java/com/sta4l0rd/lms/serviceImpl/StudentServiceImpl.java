@@ -1,14 +1,10 @@
 package com.sta4l0rd.lms.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import javax.management.RuntimeErrorException;
-import javax.print.attribute.standard.Destination;
 
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
@@ -56,8 +52,6 @@ public class StudentServiceImpl implements StudentService {
             TypeMap<StudentDTO, Student> typeMap = modelMapper.createTypeMap(StudentDTO.class, Student.class);
             typeMap.addMappings(mapper -> {
                 mapper.map(StudentDTO::getGender, Student::setGender);
-                // Skip ID to prevent accidental updates
-                mapper.skip(Student::setId);
             });
         }
     }

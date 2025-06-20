@@ -1,19 +1,15 @@
 package com.sta4l0rd.lms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sta4l0rd.lms.DTOs.StudentDTO;
-import com.sta4l0rd.lms.entity.Student;
 import com.sta4l0rd.lms.serviceImpl.StudentServiceImpl;
 
 @Controller
@@ -44,4 +40,5 @@ public class StudentController {
         studentServiceImpl.registerStudent(studentDTO);
         return "redirect:/student/all";
     }
+    // GetMapping("/edit{phone}")
 }
