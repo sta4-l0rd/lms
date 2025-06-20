@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class LoggingInterceptor implements HandlerInterceptor {
-    private static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static Logger logger = LoggerFactory.getLogger(LoggingInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

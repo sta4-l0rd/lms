@@ -37,11 +37,27 @@ public class StudentServiceImpl implements StudentService {
     }
 
     private void configureModelMapper() {
+        configureStudentToDtoMapping();
+        configureDtoToStudentMapping();
+    }
+
+    private void configureStudentToDtoMapping() {
         if (modelMapper.getTypeMap(Student.class, StudentDTO.class) == null) {
             TypeMap<Student, StudentDTO> typeMap = modelMapper.createTypeMap(Student.class, StudentDTO.class);
             typeMap.addMappings(mapper -> {
                 mapper.map(Student::getGender, StudentDTO::setGender);
                 mapper.when(Conditions.isNull()).skip(Student::getEmail, StudentDTO::setEmail);
+            });
+        }
+    }
+
+    private void configureDtoToStudentMapping() {
+        if (modelMapper.getTypeMap(StudentDTO.class, Student.class) == null) {
+            TypeMap<StudentDTO, Student> typeMap = modelMapper.createTypeMap(StudentDTO.class, Student.class);
+            typeMap.addMappings(mapper -> {
+                mapper.map(StudentDTO::getGender, Student::setGender);
+                // Skip ID to prevent accidental updates
+                mapper.skip(Student::setId);
             });
         }
     }
@@ -85,8 +101,22 @@ public class StudentServiceImpl implements StudentService {
         validateStudent(student);
         validatePhoneNumberFormat(student.getPhone());
         checkForDuplicates(student);
+        try {
+            return studentRepo.save(student);
+        } catch (Exception exc) {
+            throw new InvalidRequestBodyException(exc.getMessage());
+        }
+    }
 
-        return studentRepo.save(student);
+    public StudentDTO registerStudent(StudentDTO studentDto) {
+        Student student = new Student();
+        student = modelMapper.map(studentDto, Student.class);
+
+        validateStudent(student);
+        validatePhoneNumberFormat(student.getPhone());
+        checkForDuplicates(student);
+        studentRepo.save(student);
+        return studentDto;
     }
 
     @Override
@@ -115,7 +145,7 @@ public class StudentServiceImpl implements StudentService {
             student.setId(existingRecord.getId());
             studentRepo.save(student);
             return student;
-        }else{
+        } else {
             return null;
         }
     }

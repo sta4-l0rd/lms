@@ -24,6 +24,8 @@ import com.sta4l0rd.lms.CustomExceptions.ResourceNotFoundException;
 import com.sta4l0rd.lms.DTOs.RuntimeExceptionDTO;
 import com.sta4l0rd.lms.controller.StudentRestController;
 
+import jakarta.validation.ConstraintViolationException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -34,7 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(InvalidRequestBodyException.class)
+    @ExceptionHandler({InvalidRequestBodyException.class, ConstraintViolationException.class})
     public ResponseEntity<?> handleInvalidRequestBody(InvalidRequestBodyException ex) {
         logger.error("[handleInvalidRequestBody]" + ex.getMessage());
         return new ResponseEntity<>(new RuntimeExceptionDTO(ex.getMessage()), HttpStatus.BAD_REQUEST);

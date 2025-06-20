@@ -113,4 +113,16 @@ public class Student {
         } else
             return Gender.NOT_APPLICABLE;
     }
+
+    public void setGender(Gender gender) {
+        if (gender == Gender.NOT_KNOWN) {
+            this.sex = '0';
+        } else if (gender == Gender.MALE) {
+            this.sex = '1';
+        } else if (gender == Gender.FEMALE) {
+            this.sex = '2';
+        } else {
+            this.sex = '9';
+        }
+    }
 }
