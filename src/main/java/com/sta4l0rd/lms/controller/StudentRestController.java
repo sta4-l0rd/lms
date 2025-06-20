@@ -39,8 +39,8 @@ public class StudentRestController {
         return new ResponseEntity<>(studentServiceImpl.updateStudent(newStudent), HttpStatus.CREATED);
     }
 
-    @GetMapping("/find/{name}")
-    public ResponseEntity<?> findStudent(@PathVariable String name) {
-        return new ResponseEntity<>(studentServiceImpl.findStudentsByName(name), HttpStatus.OK);
+    @GetMapping("/search/{str}")
+    public ResponseEntity<?> findStudent(@PathVariable String str) {
+        return new ResponseEntity<>(studentServiceImpl.findStudentsByString(str), HttpStatus.OK);
     }
 }
