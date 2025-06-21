@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div>
+        <h1 th:text="${book.idString} ? 'Edit Book' : 'Add New Book'">Book Form</h1>
+
+        <form th:action="@{${book.idString} ? '/book/update/' + ${book.idString} : '/book/new'}" th:object="${book}"
+            method="post">
+
+            <!-- Hidden ID Field for Updates -->
+            <input type="hidden" th:field="*{idString}">
+
+            <div>
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" th:field="*{title}">
+            </div>
+
+            <div>
+                <label for="isbn" class="form-label">ISBN</label>
+                <input type="text" class="form-control" id="isbn" th:field="*{isbn}" required>
+            </div>
+
+            <div>
+                <label for="author" class="form-label">Author</label>
+                <input type="text" class="form-control" id="title" th:field="*{author}">
+            </div>
+
+            <div>
+                <label for="total_copies" class="form-label">Total Copies</label>
+                <input type="text" class="form-control" id="totalCopiesString" th:field="*{totalCopiesString}">
+            </div>
+
+            <div>
+                <label for="available_copies" class="form-label">Available Copies</label>
+                <input type="text" class="form-control" id="availableCopies" th:field="*{availableCopiesString}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <span th:text="${book.idString} ? 'Update' : 'Save'">Submit</span>
+            </button>
+            <a th:href="@{/book/all}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+
+</html>
