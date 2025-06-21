@@ -9,7 +9,7 @@ import com.sta4l0rd.lms.entity.BorrowingHistory;
 public interface BookService {
     public Book addBook(Book book);
 
-    public Book getBookById(Long id);
+    // public Book getBookById(Long id);
     public Book getBookByIsbn(String isbn);
     public List<Book> getAllBooks();
 
