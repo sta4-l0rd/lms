@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -79,6 +80,13 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+    private void validateEmail(String email) {
+        EmailValidator validator = EmailValidator.getInstance();
+        if (!validator.isValid(email)) {
+            throw new InvalidRequestBodyException("Invalid Email");
+        }
+    }
+
     private void checkForDuplicates(Student student) {
         if (studentRepo.existsByPhone(student.getPhone())) {
             throw new InvalidRequestBodyException("Phone number already exists");
@@ -94,6 +102,7 @@ public class StudentServiceImpl implements StudentService {
     public Student registerStudent(Student student) {
         validateStudent(student);
         validatePhoneNumberFormat(student.getPhone());
+        validateEmail(student.getEmail());
         checkForDuplicates(student);
         try {
             return studentRepo.save(student);
@@ -161,7 +170,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(Long id) {
-        if(studentRepo.findById(id) != null){
+        if (studentRepo.findById(id) != null) {
             studentRepo.deleteById(id);
         }
     }
