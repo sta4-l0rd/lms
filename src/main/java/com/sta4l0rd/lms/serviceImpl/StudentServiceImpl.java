@@ -177,7 +177,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findStudentsByString(String name) {
-        return studentRepo.findByFirstNameOrLastNameOrEmailOrPhone(name, name, name, name);
+        return studentRepo.findByFirstNameContainingOrLastNameContainingOrEmailContainingOrPhoneContainingAllIgnoringCase(name, name, name, name);
     }
 
     @Override

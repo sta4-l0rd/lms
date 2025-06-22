@@ -102,13 +102,10 @@ public class BookServiceImpl {
     }
 
     public List<BookDTO> findBooksDTO(String searchString) {
-        return bookRepo.findByTitleOrAuthor(searchString, searchString).stream()
+        return bookRepo.findByTitleContainingOrAuthorContainingAllIgnoringCase(searchString, searchString).stream()
                 .map(book -> modelMapper.map(book, BookDTO.class))
                 .collect(Collectors.toList());
     }
-    // public List<Book> findBooksDTO(String searchString) {
-    // return bookRepo.findByTitleOrAuthor(searchString, searchString);
-    // }
 
     /*
      * Service methods that handles and process entity

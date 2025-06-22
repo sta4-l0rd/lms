@@ -8,4 +8,5 @@ import com.sta4l0rd.lms.entity.Book;
 
 public interface BookRepo extends JpaRepository<Book, Long>{
     public List<Book> findByTitleOrAuthor(String title, String author);
+    public List<Book> findByTitleContainingOrAuthorContainingAllIgnoringCase(String title, String author);
 }
