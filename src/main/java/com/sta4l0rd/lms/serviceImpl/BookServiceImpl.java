@@ -1,6 +1,7 @@
 package com.sta4l0rd.lms.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.validator.routines.ISBNValidator;
@@ -118,6 +119,20 @@ public class BookServiceImpl {
     public void deleteBook(Long id) {
         if (bookRepo.findById(id) != null) {
             bookRepo.deleteById(id);
+        }
+    }
+
+    public Optional<Book> getBookById(Long id) {
+        return bookRepo.findById(id);
+    }
+
+    public Optional<Book> updateAvailableCopies(Long bookId, int change) {
+        if (bookId != null) {
+            Optional<Book> book = bookRepo.findById(bookId);
+            book.ifPresent(b -> b.setAvailableCopies(b.getAvailableCopies() + change));
+            return book;
+        } else {
+            throw new RuntimeException("bookId must not be null");
         }
     }
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sta4l0rd.lms.enums.Gender;
 
 import jakarta.persistence.CascadeType;
@@ -40,8 +41,8 @@ public class Student {
     @Pattern(regexp = "^\\+\\d{1,3}-\\d{3}-\\d{3}-\\d{4}$")
     private String phone;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<BorrowingHistory> studentBorrowingHistories = new HashSet<>();
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<BorrowHistory> studentBorrowingHistories = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -99,7 +100,7 @@ public class Student {
         this.phone = phone;
     }
 
-    public Set<BorrowingHistory> getStudentBorrowingHistories() {
+    public Set<BorrowHistory> getStudentBorrowingHistories() {
         return studentBorrowingHistories;
     }
 

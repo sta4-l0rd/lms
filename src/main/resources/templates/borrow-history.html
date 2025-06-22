@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+</head>
+
+<body>
+    <div>
+        <h1>Borrow History</h1>
+        <a th:href="@{/borrow}">Issue New Book</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Student Name</th>
+                    <th>Borrow Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="BorrowHistory : ${BorrowingHistory}">
+                    <td th:text="${BorrowHistory.bookTitleString}"></td>
+                    <td th:text="${BorrowHistory.studentFirstNameString} + ' ' + ${BorrowHistory.studentLastNameString}"></td>
+                    <td th:text="${BorrowHistory.borrowDateString}"></td>
+                    <td th:text="${BorrowHistory.dueDateString}"></td>
+                    <td th:text="${BorrowHistory.returnDateString}"></td>
+                    <td th:text="${BorrowHistory.bookStatusString}"></td>
+                    <td>
+                        <a th:href="@{'/borrow/return?id=' + ${BorrowHistory.BorrowHistoryIdString}}">Return</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

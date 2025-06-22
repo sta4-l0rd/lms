@@ -1,6 +1,7 @@
 package com.sta4l0rd.lms.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.sta4l0rd.lms.CustomExceptions.InvalidRequestBodyException;
 import com.sta4l0rd.lms.DTOs.StudentDTO;
-import com.sta4l0rd.lms.entity.BorrowingHistory;
+import com.sta4l0rd.lms.entity.BorrowHistory;
 import com.sta4l0rd.lms.entity.Student;
 import com.sta4l0rd.lms.repo.StudentRepo;
 import com.sta4l0rd.lms.service.StudentService;
@@ -123,9 +124,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStudentById'");
+    public Optional<Student> getStudentById(Long id) {
+        if (id != null) {
+            return studentRepo.findById(id);
+        }else{
+            throw new RuntimeException("Student Id cannot be null");
+        }
     }
 
     @Override
@@ -177,7 +181,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findStudentsByString(String name) {
-        return studentRepo.findByFirstNameContainingOrLastNameContainingOrEmailContainingOrPhoneContainingAllIgnoringCase(name, name, name, name);
+        return studentRepo
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingOrPhoneContainingAllIgnoringCase(name,
+                        name, name, name);
     }
 
     @Override
@@ -193,9 +199,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Set<BorrowingHistory> getBorrowingHistory(Long studentId) {
+    public Set<BorrowHistory> getBorrowHistory(Long studentId) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBorrowingHistory'");
+        throw new UnsupportedOperationException("Unimplemented method 'getBorrowHistory'");
     }
 
     @Override

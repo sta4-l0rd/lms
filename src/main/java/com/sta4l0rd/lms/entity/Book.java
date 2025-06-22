@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,6 +34,6 @@ public class Book {
   @ColumnDefault("0")
   private Integer availableCopies;
 
-  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private Set<BorrowingHistory> bookBorrowingHistories = new HashSet<>();
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private Set<BorrowHistory> bookBorrowingHistories = new HashSet<>();
 }

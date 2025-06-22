@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+</head>
+
+<body>
+    <div>
+        <h1>Issue Success</h1>
+        <div>
+            <span>Book Title : </span>
+            <span th:text="${BorrowHistory.bookTitleString} + ' by ' + ${BorrowHistory.bookAuthorString}"></span></br>
+
+            <span>Student Name : </span>
+            <span th:text="${BorrowHistory.studentFirstNameString} + ' ' + ${BorrowHistory.studentLastNameString}">
+            </span></br>
+            <span>Borrow Date : </span>
+            <span th:text="${BorrowHistory.borrowDateString}"></span></br>
+
+            <span>Due Date : </span>
+            <span th:text="${BorrowHistory.dueDateString}"></span></br>
+            
+
+        </div>
+        <div>
+            <a th:href="@{'/borrow/history'}">Go Back</a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sta4l0rd.lms.DTOs.BookDTO;
 import com.sta4l0rd.lms.DTOs.StudentDTO;
+import com.sta4l0rd.lms.entity.BorrowHistory;
+import com.sta4l0rd.lms.service.BorrowService;
 import com.sta4l0rd.lms.serviceImpl.BookServiceImpl;
+import com.sta4l0rd.lms.serviceImpl.BorrowServiceImpl;
 import com.sta4l0rd.lms.serviceImpl.StudentServiceImpl;
 
 @Controller
@@ -27,21 +29,24 @@ public class BorrowController {
     @Autowired
     private BookServiceImpl bookServiceImpl;
 
+    @Autowired
+    private BorrowServiceImpl borrowServiceImpl;
+
     @GetMapping("")
     public String getIssueBookPage(Model model) {
-        return "issue-book";
+        return "book-issue";
     }
 
     @GetMapping("student/search")
     public String searchStudents(@RequestParam(name = "searchString") String id, Model model) {
         model.addAttribute("students", studentServiceImpl.findStudentsByString(id));
-        return "issue-book";
+        return "book-issue";
     }
 
     @GetMapping("student")
     public String getStudentDetails(@RequestParam(name = "studentId") String id, Model model) {
         model.addAttribute("student", studentServiceImpl.getStudentDTOById(id));
-        return "issue-book";
+        return "book-issue";
     }
 
     @PostMapping("book/search")
@@ -50,15 +55,27 @@ public class BorrowController {
             BindingResult result, Model model) {
         model.addAttribute("student", studentDTO);
         model.addAttribute("books", bookServiceImpl.findBooksDTO(id));
-        return "issue-book";
+        return "book-issue";
     }
 
     @GetMapping("issue")
-    public ResponseEntity<?> issueBook(@RequestParam(name = "studentId") String studentId,
+    public String issueBook(@RequestParam(name = "studentId") String studentId,
             @RequestParam(name = "bookId") String bookId,
             Model model) {
-        return new ResponseEntity<>("Book Issued " + studentId + bookId, HttpStatus.OK);
-        // model.addAttribute("student", studentServiceImpl.getStudentDTOById(id));
-        // return "issue-book";
+        model.addAttribute("BorrowHistory",
+                borrowServiceImpl.issueBook(Long.parseLong(studentId), Long.parseLong(bookId)));
+        return "book-issue-success";
+    }
+
+    @GetMapping("history")
+    public String getHistory(Model model) {
+        model.addAttribute("BorrowingHistory", borrowServiceImpl.getBorrowingHistoryDTO());
+        return "borrow-history";
+    }
+
+    @GetMapping("return")
+    public String returnBook(@RequestParam(name = "id") String borrowId, Model model) {
+        borrowServiceImpl.returnBook(Long.valueOf(borrowId));
+        return "redirect:/borrow/history";
     }
 }

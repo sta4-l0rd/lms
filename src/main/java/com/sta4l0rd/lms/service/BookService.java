@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.sta4l0rd.lms.entity.Book;
-import com.sta4l0rd.lms.entity.BorrowingHistory;
+import com.sta4l0rd.lms.entity.BorrowHistory;
 
 public interface BookService {
     public Book addBook(Book book);
@@ -23,8 +23,8 @@ public interface BookService {
     Book incrementCopies(Long bookId, int additionalCopies);
     Book decrementCopies(Long bookId, int copiesToRemove);
 
-    Book updateAvailableCopies(Long bookId, int change);
+    public Book updateAvailableCopies(Long bookId, int change);
 
-    public Set<BorrowingHistory> getBorrowingHistory(Long bookId);
+    public Set<BorrowHistory> getBorrowHistory(Long bookId);
 
 }
