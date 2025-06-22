@@ -63,11 +63,11 @@ public class BookController {
     public String deleteBook(@PathVariable Long id) {
         bookServiceImpl.deleteBook(id);
         return "redirect:/book/all";
-    }   
+    }
 
     @GetMapping("/search")
     public String searchBooks(@RequestParam(name = "searchString") String id, Model model) {
-    model.addAttribute("books", bookServiceImpl.findBooksDTO(id));
-    return "books-list";
+        model.addAttribute("books", bookServiceImpl.findBooksDTO(id));
+        return "books-list";
     }
 }

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+</head>
+
+<body>
+    <div>
+        <div th:if="${student == null}">
+            <h1>Issue Book</h1>
+            <form th:action="@{/borrow/student/search}" method="get">
+                <label>Search Student</label>
+                <input type="text" name="searchString" />
+                <input type="submit" />
+            </form>
+        </div>
+
+        <!-- Show this block when searched students list is returned -->
+        <div th:if="${students != null}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.firstName}"></td>
+                        <td th:text="${student.lastName}"></td>
+                        <td th:text="${student.email}"></td>
+                        <td th:text="${student.phone}"></td>
+                        <td>
+                            <a th:href="@{'/borrow/student?studentId=' + ${student.id}}">Issue Book</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Show this block when we have our student to whom we want to issue book -->
+        <div th:if="${student != null}">
+            <h2>Issuing a Book</h2>
+            <h2>Student Details</h2>
+            <span>First Name : </span><span th:text="${student.firstName}"></span></br>
+            <span>Last Name : </span><span th:text="${student.lastName}"></span></br>
+            <span>Email : </span><span th:text="${student.email}"></span></br>
+            <span>Phone : </span><span th:text="${student.phone}"></span></br>
+
+            <form th:action="@{/borrow/book/search}" th:object="${student}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{firstName}" />
+                <input type="hidden" th:field="*{lastName}" />
+                <input type="hidden" th:field="*{email}" />
+                <input type="hidden" th:field="*{phone}" />
+                <label>Search Book</label>
+                <input type="text" name="searchString" />
+                <input type="submit" />
+            </form>
+        </div>
+
+        <!-- Show this block when we have our books search result -->
+        <div th:if="${student != null} and ${books != null}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>ISBN</th>
+                        <th>TC</th>
+                        <th>AC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="book : ${books}">
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.author}"></td>
+                        <td th:text="${book.isbn}"></td>
+                        <td th:text="${book.totalCopiesString}"></td>
+                        <td th:text="${book.availableCopiesString}"></td>
+                        <td>
+                            <a
+                                th:href="@{'/borrow/issue?studentId=' + ${student.id} + '&bookId=' + ${book.idString}}">Issue</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+
+</html>

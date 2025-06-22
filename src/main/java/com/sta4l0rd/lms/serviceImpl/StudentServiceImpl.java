@@ -216,8 +216,8 @@ public class StudentServiceImpl implements StudentService {
         throw new UnsupportedOperationException("Unimplemented method 'getCurrentBorrowedBooksCount'");
     }
 
-    public StudentDTO getStudentDTOById(Long id) {
-        return modelMapper.map(studentRepo.findById(id), StudentDTO.class);
+    public StudentDTO getStudentDTOById(String id) {
+        return modelMapper.map(studentRepo.findById(Long.parseLong(id)), StudentDTO.class);
     }
 
 }
