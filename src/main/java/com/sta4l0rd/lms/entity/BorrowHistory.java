@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 
 @lombok.Data
 @Entity
-public class BorrowingHistory {
+public class BorrowHistory {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -28,10 +28,12 @@ public class BorrowingHistory {
   @JoinColumn(name = "student_id")
   private Student student;
 
-  private LocalDate borrow_date;
+  private LocalDate borrowDate;
 
   // Remeber to make it auto configurable days from borrow_date
-  private LocalDate due_date;
+  private LocalDate dueDate;
+
+  private LocalDate returnDate;
 
   @Enumerated(EnumType.STRING)
   private BookStatus status;
