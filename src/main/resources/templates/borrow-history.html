@@ -31,9 +31,9 @@
                     <td th:text="${BorrowHistory.dueDateString}"></td>
                     <td th:text="${BorrowHistory.returnDateString}"></td>
                     <td th:text="${BorrowHistory.bookStatusString}"></td>
-                    <td>
+                    <td th:if="${BorrowHistory.bookStatusString == 'CHECKED_OUT'}">
                         <a th:href="@{'/borrow/return?id=' + ${BorrowHistory.BorrowHistoryIdString}}">Return</a>
-                    </td>
+                    </td> 
                 </tr>
             </tbody>
         </table>

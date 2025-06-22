@@ -129,7 +129,10 @@ public class BookServiceImpl {
     public Optional<Book> updateAvailableCopies(Long bookId, int change) {
         if (bookId != null) {
             Optional<Book> book = bookRepo.findById(bookId);
-            book.ifPresent(b -> b.setAvailableCopies(b.getAvailableCopies() + change));
+            book.ifPresent(b -> {
+                b.setAvailableCopies(b.getAvailableCopies() + change);
+                bookRepo.save(b);
+            });
             return book;
         } else {
             throw new RuntimeException("bookId must not be null");
