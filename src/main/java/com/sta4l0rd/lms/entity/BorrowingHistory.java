@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import com.sta4l0rd.lms.enums.BookStatus;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+@lombok.Data
 @Entity
 public class BorrowingHistory {
   @Id
