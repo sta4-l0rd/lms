@@ -82,11 +82,11 @@
                         <td th:text="${book.title}"></td>
                         <td th:text="${book.author}"></td>
                         <td th:text="${book.isbn}"></td>
-                        <td th:text="${book.totalCopiesString}"></td>
-                        <td th:text="${book.availableCopiesString}"></td>
+                        <td th:text="${book.totalCopies}"></td>
+                        <td th:text="${book.availableCopies}"></td>
                         <td>
                             <a
-                                th:href="@{'/borrow/issue?studentId=' + ${student.id} + '&bookId=' + ${book.idString}}">Issue</a>
+                                th:href="@{'/borrow/issue?studentId=' + ${student.id} + '&bookId=' + ${book.id}}">Issue</a>
                         </td>
                     </tr>
                 </tbody>

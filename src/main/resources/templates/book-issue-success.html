@@ -12,16 +12,16 @@
         <h1>Issue Success</h1>
         <div>
             <span>Book Title : </span>
-            <span th:text="${BorrowHistory.bookTitleString} + ' by ' + ${BorrowHistory.bookAuthorString}"></span></br>
+            <span th:text="${BorrowHistory.bookTitle} + ' by ' + ${BorrowHistory.bookAuthor}"></span></br>
 
             <span>Student Name : </span>
-            <span th:text="${BorrowHistory.studentFirstNameString} + ' ' + ${BorrowHistory.studentLastNameString}">
+            <span th:text="${BorrowHistory.studentFirstName} + ' ' + ${BorrowHistory.studentLastName}">
             </span></br>
             <span>Borrow Date : </span>
-            <span th:text="${BorrowHistory.borrowDateString}"></span></br>
+            <span th:text="${BorrowHistory.borrowDate}"></span></br>
 
             <span>Due Date : </span>
-            <span th:text="${BorrowHistory.dueDateString}"></span></br>
+            <span th:text="${BorrowHistory.dueDate}"></span></br>
             
 
         </div>

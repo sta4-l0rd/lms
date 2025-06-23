@@ -8,13 +8,13 @@
 
 <body>
     <div>
-        <h1 th:text="${book.idString} ? 'Edit Book' : 'Add New Book'">Book Form</h1>
+        <h1 th:text="${book.id} ? 'Edit Book' : 'Add New Book'">Book Form</h1>
 
-        <form th:action="@{${book.idString} ? '/book/update/' + ${book.idString} : '/book/new'}" th:object="${book}"
+        <form th:action="@{${book.id} ? '/book/update/' + ${book.id} : '/book/new'}" th:object="${book}"
             method="post">
 
             <!-- Hidden ID Field for Updates -->
-            <input type="hidden" th:field="*{idString}">
+            <input type="hidden" th:field="*{id}">
 
             <div>
                 <label for="title" class="form-label">Title</label>
@@ -33,16 +33,16 @@
 
             <div>
                 <label for="total_copies" class="form-label">Total Copies</label>
-                <input type="text" class="form-control" id="totalCopiesString" th:field="*{totalCopiesString}">
+                <input type="text" class="form-control" id="totalCopies" th:field="*{totalCopies}">
             </div>
 
             <div>
                 <label for="available_copies" class="form-label">Available Copies</label>
-                <input type="text" class="form-control" id="availableCopies" th:field="*{availableCopiesString}">
+                <input type="text" class="form-control" id="availableCopies" th:field="*{availableCopies}">
             </div>
 
             <button type="submit" class="btn btn-primary">
-                <span th:text="${book.idString} ? 'Update' : 'Save'">Submit</span>
+                <span th:text="${book.id} ? 'Update' : 'Save'">Submit</span>
             </button>
             <a th:href="@{/book/all}" class="btn btn-secondary">Cancel</a>
         </form>

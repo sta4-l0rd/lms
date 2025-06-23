@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.hibernate.annotations.ColumnDefault;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sta4l0rd.lms.enums.Gender;
 
 import jakarta.persistence.CascadeType;
@@ -34,7 +33,7 @@ public class Student {
     @ColumnDefault("0")
     private Character sex = '0';
 
-    @Column(columnDefinition = "VARCHAR(320)")
+    @Column(columnDefinition = "VARCHAR(320)", unique = true)
     @Email
     private String email;
 

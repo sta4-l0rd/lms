@@ -2,18 +2,18 @@ package com.sta4l0rd.lms.DTOs;
 
 @lombok.Data
 public class BorrowHistoryDTO {
-    private String BorrowHistoryIdString;
+    private String BorrowHistoryid;
     
-    private String bookIdString;
-    private String bookTitleString;
-    private String bookAuthorString;
+    private String bookid;
+    private String bookTitle;
+    private String bookAuthor;
 
-    private String studentFirstNameString;
-    private String studentLastNameString;
-    private String studentIdString;
+    private String studentFirstName;
+    private String studentLastName;
+    private String studentid;
     
-    private String borrowDateString;
-    private String dueDateString;
-    private String returnDateString;
-    private String bookStatusString;
+    private String borrowDate;
+    private String dueDate;
+    private String returnDate;
+    private String bookStatus;
 }

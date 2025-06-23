@@ -1,5 +1,6 @@
 package com.sta4l0rd.lms.serviceImpl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +21,8 @@ import com.sta4l0rd.lms.entity.BorrowHistory;
 import com.sta4l0rd.lms.entity.Student;
 import com.sta4l0rd.lms.repo.StudentRepo;
 import com.sta4l0rd.lms.service.StudentService;
+
+import jakarta.validation.ConstraintViolationException;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -115,19 +118,19 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO registerStudent(StudentDTO studentDto) {
         Student student = new Student();
         student = modelMapper.map(studentDto, Student.class);
-
         validateStudent(student);
         validatePhoneNumberFormat(student.getPhone());
         checkForDuplicates(student);
         studentRepo.save(student);
         return studentDto;
+
     }
 
     @Override
     public Optional<Student> getStudentById(Long id) {
         if (id != null) {
             return studentRepo.findById(id);
-        }else{
+        } else {
             throw new RuntimeException("Student Id cannot be null");
         }
     }
@@ -158,18 +161,27 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public StudentDTO updateStudentDTO(StudentDTO studentDto) {
+
         Student student = new Student();
         student = modelMapper.map(studentDto, Student.class);
-        validateStudent(student);
-        validatePhoneNumberFormat(student.getPhone());
-        Student existingRecord = studentRepo.findByPhone(student.getPhone());
-        if (existingRecord != null) {
-            student.setId(existingRecord.getId());
-            studentRepo.save(student);
-            return studentDto;
-        } else {
-            return null;
+        try {
+            validateStudent(student);
+            validatePhoneNumberFormat(student.getPhone());
+            Student existingRecord = studentRepo.findByPhone(student.getPhone());
+            if (existingRecord != null) {
+                student.setId(existingRecord.getId());
+                studentRepo.save(student);
+                return studentDto;
+            } else {
+                return null;
+            }
+        } catch (ConstraintViolationException e) {
+            System.out.println("Catched Constraint Exception");
+            throw new ConstraintViolationException(e.getMessage(), Collections.emptySet());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     @Override

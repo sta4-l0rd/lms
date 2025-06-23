@@ -36,9 +36,9 @@ public class BookServiceImpl {
     private void configureBookToDtoMapping() {
         TypeMap<Book, BookDTO> typeMap = modelMapper.createTypeMap(Book.class, BookDTO.class);
         typeMap.addMappings(mapper -> {
-            mapper.map(Book::getId, BookDTO::setIdString);
-            mapper.map(Book::getTotalCopies, BookDTO::setTotalCopiesString);
-            mapper.map(Book::getAvailableCopies, BookDTO::setAvailableCopiesString);
+            mapper.map(Book::getId, BookDTO::setId);
+            mapper.map(Book::getTotalCopies, BookDTO::setTotalCopies);
+            mapper.map(Book::getAvailableCopies, BookDTO::setAvailableCopies);
         });
     }
 

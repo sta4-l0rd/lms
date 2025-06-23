@@ -31,11 +31,11 @@
                     <td th:text="${book.title}"></td>
                     <td th:text="${book.author}"></td>
                     <td th:text="${book.isbn}"></td>
-                    <td th:text="${book.totalCopiesString}"></td>
-                    <td th:text="${book.availableCopiesString}"></td>
+                    <td th:text="${book.totalCopies}"></td>
+                    <td th:text="${book.availableCopies}"></td>
                     <td>
-                        <a th:href="@{'/book/edit/' + ${book.idString}}">Edit</a>
-                        <a th:href="@{'/book/delete/' + ${book.idString}}">Delete</a>
+                        <a th:href="@{'/book/edit/' + ${book.id}}">Edit</a>
+                        <a th:href="@{'/book/delete/' + ${book.id}}">Delete</a>
                     </td>
                 </tr>
             </tbody>

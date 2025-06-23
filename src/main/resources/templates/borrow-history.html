@@ -25,14 +25,14 @@
             </thead>
             <tbody>
                 <tr th:each="BorrowHistory : ${BorrowingHistory}">
-                    <td th:text="${BorrowHistory.bookTitleString}"></td>
-                    <td th:text="${BorrowHistory.studentFirstNameString} + ' ' + ${BorrowHistory.studentLastNameString}"></td>
-                    <td th:text="${BorrowHistory.borrowDateString}"></td>
-                    <td th:text="${BorrowHistory.dueDateString}"></td>
-                    <td th:text="${BorrowHistory.returnDateString}"></td>
-                    <td th:text="${BorrowHistory.bookStatusString}"></td>
-                    <td th:if="${BorrowHistory.bookStatusString == 'CHECKED_OUT'}">
-                        <a th:href="@{'/borrow/return?id=' + ${BorrowHistory.BorrowHistoryIdString}}">Return</a>
+                    <td th:text="${BorrowHistory.bookTitle}"></td>
+                    <td th:text="${BorrowHistory.studentFirstName} + ' ' + ${BorrowHistory.studentLastName}"></td>
+                    <td th:text="${BorrowHistory.borrowDate}"></td>
+                    <td th:text="${BorrowHistory.dueDate}"></td>
+                    <td th:text="${BorrowHistory.returnDate}"></td>
+                    <td th:text="${BorrowHistory.bookStatus}"></td>
+                    <td th:if="${BorrowHistory.bookStatus == 'CHECKED_OUT'}">
+                        <a th:href="@{'/borrow/return?id=' + ${BorrowHistory.BorrowHistoryid}}">Return</a>
                     </td> 
                 </tr>
             </tbody>
