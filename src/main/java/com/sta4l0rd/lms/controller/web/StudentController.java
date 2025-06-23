@@ -1,4 +1,4 @@
-package com.sta4l0rd.lms.controller;
+package com.sta4l0rd.lms.controller.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
