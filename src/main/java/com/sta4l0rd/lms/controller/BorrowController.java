@@ -1,8 +1,6 @@
 package com.sta4l0rd.lms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sta4l0rd.lms.DTOs.StudentDTO;
-import com.sta4l0rd.lms.entity.BorrowHistory;
-import com.sta4l0rd.lms.service.BorrowService;
 import com.sta4l0rd.lms.serviceImpl.BookServiceImpl;
 import com.sta4l0rd.lms.serviceImpl.BorrowServiceImpl;
 import com.sta4l0rd.lms.serviceImpl.StudentServiceImpl;
