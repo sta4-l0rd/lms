@@ -20,6 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
+@lombok.Data
 @Entity
 public class Student {
     @Id
@@ -43,66 +44,6 @@ public class Student {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<BorrowHistory> studentBorrowingHistories = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String first_name) {
-        this.firstName = first_name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String last_name) {
-        this.lastName = last_name;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate date_of_birth) {
-        this.dateOfBirth = date_of_birth;
-    }
-
-    public Character getSex() {
-        return sex;
-    }
-
-    public void setSex(Character sex) {
-        this.sex = sex;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Set<BorrowHistory> getStudentBorrowingHistories() {
-        return studentBorrowingHistories;
-    }
 
     public Gender getGender() {
         if (this.sex == '0') {
