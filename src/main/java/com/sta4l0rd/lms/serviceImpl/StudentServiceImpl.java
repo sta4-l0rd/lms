@@ -129,13 +129,13 @@ public class StudentServiceImpl implements StudentService {
         validateStudent(student);
         validatePhoneNumberFormat(student.getPhone());
         validateEmail(student.getEmail());
-        Student existingRecord = studentRepo.findByPhone(student.getPhone());
+        Student existingRecord = studentRepo.findByPhoneOrEmail(student.getPhone(), student.getEmail());
         if (existingRecord != null) {
             student.setId(existingRecord.getId());
             studentRepo.save(student);
             return modelMapper.map(student, StudentDTO.class);
         } else {
-            throw new InvalidRequestBodyException("Cannot find the requested record using Phone Number");
+            return null;
         }
     }
 

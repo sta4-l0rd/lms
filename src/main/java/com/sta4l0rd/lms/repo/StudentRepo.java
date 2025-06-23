@@ -9,6 +9,6 @@ import com.sta4l0rd.lms.entity.Student;
 public interface StudentRepo extends JpaRepository<Student, Long> {
     public boolean existsByPhone(String phone);
     public boolean existsByEmail(String email);
-    public Student findByPhone(String phone);
+    public Student findByPhoneOrEmail(String phone, String email);
     public List<Student> findByFirstNameContainingOrLastNameContainingOrEmailContainingOrPhoneContainingAllIgnoringCase(String firstName, String lastName, String email, String phone);
 }
