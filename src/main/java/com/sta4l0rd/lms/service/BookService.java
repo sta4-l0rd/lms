@@ -1,29 +1,33 @@
 package com.sta4l0rd.lms.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import com.sta4l0rd.lms.DTOs.BookDTO;
 import com.sta4l0rd.lms.entity.Book;
 import com.sta4l0rd.lms.entity.BorrowHistory;
 
 public interface BookService {
-    public Book addBook(Book book);
+    public BookDTO addBookDTO(BookDTO bookDto);
 
-    // public Book getBookById(Long id);
+    public BookDTO getBookDTObyId(Long id);
+
+    public Optional<Book> getBookById(Long id);
+
+    public List<BookDTO> getAllBooksDTO();
+
+    public List<BookDTO> findBooksDTO(String searchString);
+
     public Book getBookByIsbn(String isbn);
-    public List<Book> getAllBooks();
 
-    public Book updateBook(Book book);
+    public BookDTO updateBookDTO(BookDTO bookDTO);
+
     public void deleteBook(Long id);
-
-    public List<Book> searchBooksByTitle(String title);
 
     public List<Book> getAvailableBooks();
 
-    Book incrementCopies(Long bookId, int additionalCopies);
-    Book decrementCopies(Long bookId, int copiesToRemove);
-
-    public Book updateAvailableCopies(Long bookId, int change);
+    public Optional<Book> updateAvailableCopies(Long bookId, int change);
 
     public Set<BorrowHistory> getBorrowHistory(Long bookId);
 
