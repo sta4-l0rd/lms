@@ -1,6 +1,5 @@
 package com.sta4l0rd.lms.serviceImpl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,8 +20,6 @@ import com.sta4l0rd.lms.entity.BorrowHistory;
 import com.sta4l0rd.lms.entity.Student;
 import com.sta4l0rd.lms.repo.StudentRepo;
 import com.sta4l0rd.lms.service.StudentService;
-
-import jakarta.validation.ConstraintViolationException;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -102,44 +99,23 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-    @Override
-    public Student registerStudent(Student student) {
-        validateStudent(student);
-        validatePhoneNumberFormat(student.getPhone());
-        validateEmail(student.getEmail());
-        checkForDuplicates(student);
-        try {
-            return studentRepo.save(student);
-        } catch (Exception exc) {
-            throw new InvalidRequestBodyException(exc.getMessage());
-        }
-    }
+    /*
+     * Service methods that handles and process DTOs
+     */
 
-    public StudentDTO registerStudent(StudentDTO studentDto) {
+    @Override
+    public StudentDTO registerStudentDTO(StudentDTO studentDto) {
         Student student = new Student();
         student = modelMapper.map(studentDto, Student.class);
         validateStudent(student);
         validatePhoneNumberFormat(student.getPhone());
+        validateEmail(student.getEmail());
         checkForDuplicates(student);
         studentRepo.save(student);
-        return studentDto;
-
+        return modelMapper.map(student, StudentDTO.class);
     }
 
     @Override
-    public Optional<Student> getStudentById(Long id) {
-        if (id != null) {
-            return studentRepo.findById(id);
-        } else {
-            throw new RuntimeException("Student Id cannot be null");
-        }
-    }
-
-    @Override
-    public List<Student> getAllStudents() {
-        return studentRepo.findAll();
-    }
-
     public List<StudentDTO> getAllStudentsDTO() {
         return studentRepo.findAll().stream()
                 .map(student -> modelMapper.map(student, StudentDTO.class))
@@ -147,42 +123,38 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student updateStudent(Student student) {
+    public StudentDTO updateStudentDTO(StudentDTO studentDto) {
+        Student student = new Student();
+        student = modelMapper.map(studentDto, Student.class);
         validateStudent(student);
         validatePhoneNumberFormat(student.getPhone());
+        validateEmail(student.getEmail());
         Student existingRecord = studentRepo.findByPhone(student.getPhone());
         if (existingRecord != null) {
             student.setId(existingRecord.getId());
             studentRepo.save(student);
-            return student;
+            return modelMapper.map(student, StudentDTO.class);
         } else {
-            return null;
+            throw new InvalidRequestBodyException("Cannot find the requested record using Phone Number");
         }
     }
 
-    public StudentDTO updateStudentDTO(StudentDTO studentDto) {
-
-        Student student = new Student();
-        student = modelMapper.map(studentDto, Student.class);
-        try {
-            validateStudent(student);
-            validatePhoneNumberFormat(student.getPhone());
-            Student existingRecord = studentRepo.findByPhone(student.getPhone());
-            if (existingRecord != null) {
-                student.setId(existingRecord.getId());
-                studentRepo.save(student);
-                return studentDto;
-            } else {
-                return null;
-            }
-        } catch (ConstraintViolationException e) {
-            System.out.println("Catched Constraint Exception");
-            throw new ConstraintViolationException(e.getMessage(), Collections.emptySet());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    @Override
+    public List<StudentDTO> findStudentsDTOByString(String name) {
+        return studentRepo
+                .findByFirstNameContainingOrLastNameContainingOrEmailContainingOrPhoneContainingAllIgnoringCase(name,
+                        name, name, name)
+                .stream().map(student -> modelMapper.map(student, StudentDTO.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public StudentDTO getStudentDTOById(String id) {
+        return modelMapper.map(studentRepo.findById(Long.parseLong(id)), StudentDTO.class);
+    }
+
+    /*
+     * Service methods that handles and process entity
+     */
 
     @Override
     public void deleteStudent(Long id) {
@@ -192,22 +164,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findStudentsByString(String name) {
-        return studentRepo
-                .findByFirstNameContainingOrLastNameContainingOrEmailContainingOrPhoneContainingAllIgnoringCase(name,
-                        name, name, name);
-    }
-
-    @Override
-    public Student findStudentByEmail(String email) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findStudentByEmail'");
-    }
-
-    @Override
-    public Student findStudentByPhone(String phone) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findStudentByPhone'");
+    public Optional<Student> getStudentById(Long id) {
+        if (id != null) {
+            return studentRepo.findById(id);
+        } else {
+            throw new RuntimeException("Student Id cannot be null");
+        }
     }
 
     @Override
@@ -223,19 +185,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsWithOverdueBooks() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStudentsWithOverdueBooks'");
-    }
-
-    @Override
     public int getCurrentBorrowedBooksCount(Long studentId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getCurrentBorrowedBooksCount'");
-    }
-
-    public StudentDTO getStudentDTOById(String id) {
-        return modelMapper.map(studentRepo.findById(Long.parseLong(id)), StudentDTO.class);
     }
 
 }

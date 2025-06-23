@@ -39,7 +39,7 @@ public class BorrowController {
 
     @GetMapping("student/search")
     public String searchStudents(@RequestParam(name = "searchString") String id, Model model) {
-        model.addAttribute("students", studentServiceImpl.findStudentsByString(id));
+        model.addAttribute("students", studentServiceImpl.findStudentsDTOByString(id));
         return "book-issue";
     }
 

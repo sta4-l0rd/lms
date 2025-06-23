@@ -14,14 +14,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.sta4l0rd.lms.CustomExceptions.InvalidRequestBodyException;
 import com.sta4l0rd.lms.CustomExceptions.ResourceNotFoundException;
 import com.sta4l0rd.lms.DTOs.RuntimeExceptionDTO;
-import com.sta4l0rd.lms.controller.StudentRestController;
 
 import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(StudentRestController.class);
+    private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException ex) {
